@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p Src/Pages
           cat > $FILE << EOF
-          ${{ github.event.comment.body }}
+          '${{ github.event.comment.body }}'
           EOF
       - name: Ping test server
         run: .github/scripts/testDev.sh $FILE
