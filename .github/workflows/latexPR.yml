@@ -17,9 +17,7 @@ jobs:
       - name: Add LaTeX
         run: |
           mkdir -p Src/Pages
-          cat > $FILE << EOF
-          '${{ github.event.comment.body }}'
-          EOF
+          cat > $FILE <<<"${{ github.event.comment.body }}"
       - name: Ping test server
         run: .github/scripts/testDev.sh $FILE
       - name: Tectonic Cache
