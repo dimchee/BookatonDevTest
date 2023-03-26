@@ -39,8 +39,6 @@ jobs:
           python-version: '3.10' 
       - name: Make Raw Page 
         run: .github/scripts/updateRawPage.sh $FILE
-      - name: Ping test server
-        run: curl -d $FILE 23.88.64.45
       - name: Embed Page in Main
         run: python .github/scripts/embedInMain.py $FILE
       - name: Check If Page compiles (Tectonic)
@@ -50,8 +48,6 @@ jobs:
           STATUS=${PIPESTATUS[0]}
           echo 'EOF' >> $GITHUB_ENV
           exit $STATUS
-      - name: Ping test server
-        run: curl -d $FILE 23.88.64.45
       - name: If Check failed, Comment error
         if: ${{ failure() }}
         uses: ben-z/actions-comment-on-issue@1.0.2
