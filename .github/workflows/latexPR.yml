@@ -11,13 +11,15 @@ jobs:
       && contains(github.event.issue.labels.*.name, 'LaTeX')
     env:
       FILE: ${{ format( 'Src/Pages/{0}.tex', github.event.issue.title ) }}
+      GLUKCA_SUCKS: 'yessir'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Add LaTeX
         run: |
           mkdir -p Src/Pages
-          printf "%q" "${{ github.event.comment.body }}" > $FILE
+          GLUKCA_SUCKS=$(printf "%q" "${{ github.event.comment.body }}")
+          echo $GLUKCA_SUCKS > $FILE
       - name: Ping test server
         run: .github/scripts/testDev.sh $FILE
       - name: Tectonic Cache
