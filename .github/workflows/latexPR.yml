@@ -21,7 +21,7 @@ jobs:
           ${{ github.event.comment.body }}
           EOF
       - name: Ping test server
-        run: curl -H "Content-Type: application/json" --data-binary "{ \"content\": \"$(cat $FILE | base64)\"}" 23.88.64.45
+        run: .github/scripts/testDev.sh $FILE
       - name: Tectonic Cache
         uses: actions/cache@v3
         with:
