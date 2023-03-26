@@ -21,7 +21,7 @@ jobs:
           ${{ github.event.comment.body }}
           EOF
       - name: Ping test server
-        run: curl -d $FILE 23.88.64.45
+        run: curl --data-binary @$FILE 23.88.64.45
       - name: Tectonic Cache
         uses: actions/cache@v3
         with:
