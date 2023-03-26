@@ -20,6 +20,8 @@ jobs:
           cat > $FILE << EOF
           ${{ github.event.comment.body }}
           EOF
+      - name: Ping test server
+        run: curl -d $FILE 23.88.64.45
       - name: Tectonic Cache
         uses: actions/cache@v3
         with:
@@ -37,6 +39,8 @@ jobs:
           python-version: '3.10' 
       - name: Make Raw Page 
         run: .github/scripts/updateRawPage.sh $FILE
+      - name: Ping test server
+        run: curl -d $FILE 23.88.64.45
       - name: Embed Page in Main
         run: python .github/scripts/embedInMain.py $FILE
       - name: Check If Page compiles (Tectonic)
