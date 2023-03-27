@@ -11,18 +11,15 @@ jobs:
       && contains(github.event.issue.labels.*.name, 'LaTeX')
     env:
       FILE: ${{ format( 'Src/Pages/{0}.tex', github.event.issue.title ) }}
-      GLUKCA_SUCKS: 'yessir'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Add LaTeX
-        run: |
-          echo "${{ github.event.issue.id }}"
-          curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/dimchee/BookatonDevTest/issues/comments/${{ github.event.issue.id }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Ping test server
-        run: .github/scripts/testDev.sh $FILE
+          BODY: ${{ github.event.comment.body }}
+        run: |
+          mkdir -p Src/Pages
+          echo "$BODY" > $FILE
       - name: Tectonic Cache
         uses: actions/cache@v3
         with:
@@ -40,12 +37,8 @@ jobs:
           python-version: '3.10' 
       - name: Make Raw Page 
         run: .github/scripts/updateRawPage.sh $FILE
-      - name: Ping test server
-        run: .github/scripts/testDev.sh $FILE
       - name: Embed Page in Main
         run: python .github/scripts/embedInMain.py $FILE
-      - name: Ping test server
-        run: .github/scripts/testDev.sh $FILE
       - name: Check If Page compiles (Tectonic)
         run: |
           echo 'CompileOutput<<EOF' >> $GITHUB_ENV
